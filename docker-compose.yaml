@@ -6,3 +6,14 @@ services:
     volumes:
     - .:/var/www/app
     working_dir: /var/www/app
+  db:
+    image: mysql:5.7
+    volumes:
+    - db_data:/var/lib/mysql
+    - ./.misc/docker/db/schema:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: database
+
+volumes:
+  db_data:
