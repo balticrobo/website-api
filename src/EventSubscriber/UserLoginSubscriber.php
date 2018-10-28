@@ -7,12 +7,12 @@ use Symfony\Component\Security\Core\Event\AuthenticationEvent;
 
 final class UserLoginSubscriber implements EventSubscriberInterface
 {
-    public function onSecurityAuthenticationSuccess(AuthenticationEvent $event)
-    {
-        // ...
-    }
+    /**
+     * TODO: Add last login at
+     */
+    public function onSecurityAuthenticationSuccess(AuthenticationEvent $event): void { }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
            'security.authentication.success' => 'onSecurityAuthenticationSuccess',

@@ -16,6 +16,9 @@ final class UserFixtures extends Fixture
          $this->passwordEncoder = $passwordEncoder;
      }
 
+    /**
+     * TODO: Create fixtures based on DTO
+     */
     public function load(ObjectManager $manager)
     {
         $user = new User();

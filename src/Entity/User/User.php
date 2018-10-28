@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace BalticRobo\Api\Entity;
+namespace BalticRobo\Api\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="BalticRobo\Api\Repository\UserRepository")
+ * @ORM\Entity
+ * @ORM\Table(name="users")
  */
 class User implements UserInterface
 {
@@ -28,14 +29,16 @@ class User implements UserInterface
     private $surname;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Embedded(class="Email")
+     * @var Email
      */
     private $email;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Embedded(class="Roles", columnPrefix=false)
+     * @var Roles
      */
-    private $roles = [];
+    private $roles;
 
     /**
      * @ORM\Column(type="string", length=95)
@@ -45,7 +48,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $active;
+    private $active = false;
 
     /**
      * @ORM\Column(type="timestamp_immutable")
@@ -57,22 +60,29 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getForename(): string
+    {
+        return $this->forename;
+    }
+
+    public function getSurname(): string
+    {
+        return $this->surname;
+    }
+
+    public function getEmail(): Email
     {
         return $this->email;
+    }
+
+    public function getName(): string
+    {
+        return "{$this->forename} {$this->surname}";
     }
 
     public function getUsername(): string
     {
-        return $this->email;
-    }
-
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->email->getAddress();
     }
 
     public function getPassword(): string
@@ -80,25 +90,12 @@ class User implements UserInterface
         return $this->password;
     }
 
-    public function getSalt() { }
-
-    public function eraseCredentials()
+    public function getRoles(): array
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        return $this->roles->getRoles()->toArray();
     }
 
-    public function getForename(): ?string
-    {
-        return $this->forename;
-    }
-
-    public function getSurname(): ?string
-    {
-        return $this->surname;
-    }
-
-    public function isActive(): ?bool
+    public function isActive(): bool
     {
         return $this->active;
     }
@@ -107,4 +104,11 @@ class User implements UserInterface
     {
         return $this->createdAt;
     }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void { }
 }

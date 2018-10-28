@@ -1,20 +1,24 @@
 security:
   encoders:
-    BalticRobo\Api\Entity\User:
+    BalticRobo\Api\Entity\User\User:
       algorithm: argon2i
   providers:
-    app_user_provider:
-      entity:
-        class: BalticRobo\Api\Entity\User
-        property: email
+    jwt:
+      id: BalticRobo\Api\Security\JwtProvider
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
     main:
+      pattern: ^/
       anonymous: ~
+      stateless: true
       json_login:
         check_path: /login
+        username_path: email
+        password_path: password
+      logout: ~
+      provider: jwt
       guard:
         authenticators:
         - BalticRobo\Api\Security\JwtAuthenticator
