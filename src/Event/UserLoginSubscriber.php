@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace BalticRobo\Api\EventSubscriber;
+namespace BalticRobo\Api\Event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\Security\Core\Event\AuthenticationEvent;
 
 final class UserLoginSubscriber implements EventSubscriberInterface
@@ -15,7 +16,7 @@ final class UserLoginSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-           'security.authentication.success' => 'onSecurityAuthenticationSuccess',
+            AuthenticationEvents::AUTHENTICATION_SUCCESS => 'onSecurityAuthenticationSuccess',
         ];
     }
 }
