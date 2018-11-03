@@ -6,6 +6,6 @@ final class IncorrectEmailException extends \DomainException
 {
     public function __construct(string $email)
     {
-        parent::__construct(sprintf('"%s" is not a valid email', $email));
+        parent::__construct(sprintf('"%s" is not a valid email.', $email));
     }
 }

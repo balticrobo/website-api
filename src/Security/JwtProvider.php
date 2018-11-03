@@ -35,7 +35,7 @@ final class JwtProvider implements UserProviderInterface
             throw new UnsupportedUserException();
         }
 
-        throw new \Exception('JwtProvider::refreshUser() called');
+        throw new \Exception('JwtProvider::refreshUser() called.');
     }
 
     public function supportsClass($class): bool
