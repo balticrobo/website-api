@@ -11,3 +11,7 @@ services:
   BalticRobo\Api\Controller\:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
+
+  BalticRobo\Api\Event\CorsSubscriber:
+    arguments:
+      $origin: '%env(CORS_ORIGIN_HOST)%'
