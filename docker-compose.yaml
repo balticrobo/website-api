@@ -23,7 +23,7 @@ services:
     - 8000:80
     working_dir: /var/www/app/public
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:4.7
+    image: phpmyadmin/phpmyadmin:latest
     links:
     - db
     environment:
@@ -33,6 +33,12 @@ services:
       PMA_PASSWORD: password
     ports:
     - 8010:80
+  swagger:
+    image: swaggerapi/swagger-ui:latest
+    environment:
+      API_URL: http://localhost:8000/doc
+    ports:
+    - 8011:8080
 
 volumes:
   db_data:

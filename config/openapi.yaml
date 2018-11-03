@@ -1,0 +1,76 @@
+openapi: 3.0.2
+info:
+  title: Baltic Robo API
+  description: |
+    API to serve **[Baltic Robo](https://balticrobo.eu)** event. It provides
+     bunch of functionalities to show front page (eg. our sponsors and
+     partners), opt-in for newsletter, allow to register constructors and
+     robots, sign up for event, judge all battles etc.
+
+    This API is main entrypoint for all related applications built by our team.
+     Also, after contact, we are able to prepare extended functions which allows
+     to create fans apps.
+  version: 2.0.0
+  license:
+    name: MIT license
+    url: https://github.com/balticrobo/website-api/blob/master/LICENSE
+  contact:
+    name: Paweł Cierzniakowski
+    email: pawel@cierzniakowski.pl
+    url: https://cierzniak.ml
+servers:
+- url: http://localhost:8000
+  description: Docker or local development
+paths:
+  /login:
+    post:
+      summary: Credentials => JWT
+      description: |
+        Get user credentials (email and password), generate
+        [JSON Web Token](https://jwt.io/) and return it. This Token must be
+        added to each future request till is valid.
+      tags:
+      - Security
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                  description: User email
+                password:
+                  type: string
+                  description: User password
+              required:
+              - email
+              - password
+            example:
+              email: jdoe@example.com
+              password: MySecretPassword123
+      responses:
+        200:
+          description: Cretentials are correct so take your JWT
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      token:
+                        type: string
+                        example:
+                          "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9\
+                          .eyJzdWIiOiIiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE1MTYy\
+                          MzkwMjJ9\
+                          .myWq7MiF6hMmNbW8onUdrU3LCSDnz_zikV1VYYVYiLLPImV-E6g3\
+                          rgsqVSxg3Xzz"
+components:
+  securitySchemes:
+    JWT:
+      description: |
+        [JSON Web Token](https://jwt.io/) have to be obtained from
+         **POST** _/login_
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
