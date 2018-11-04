@@ -17,8 +17,12 @@ security:
         check_path: /login
         username_path: email
         password_path: password
+        remember_me: false
       logout: ~
-      provider: jwt
       guard:
+        provider: jwt
         authenticators:
+        - BalticRobo\Api\Security\LoginAuthenticator
         - BalticRobo\Api\Security\JwtAuthenticator
+        entry_point: BalticRobo\Api\Security\JwtAuthenticator
+

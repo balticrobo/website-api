@@ -16,7 +16,10 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
  */
 final class JwtAuthenticator extends AbstractGuardAuthenticator
 {
-    public function supports(Request $request): bool { }
+    public function supports(Request $request): bool
+    {
+        return $request->headers->has('Authorization');
+    }
 
     public function getCredentials(Request $request): array { }
 

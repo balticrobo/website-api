@@ -6,7 +6,7 @@ services:
 
   BalticRobo\Api\:
     resource: '../src/*'
-    exclude: '../src/{Entity,Migrations,Kernel.php}'
+    exclude: '../src/{Entity,Migrations,Model,Kernel.php}'
 
   BalticRobo\Api\Controller\:
     resource: '../src/Controller'
