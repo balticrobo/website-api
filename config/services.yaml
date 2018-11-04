@@ -15,3 +15,9 @@ services:
   BalticRobo\Api\Event\CorsSubscriber:
     arguments:
       $origin: '%env(CORS_ORIGIN_HOST)%'
+
+  BalticRobo\Api\Service\User\Jwt\JwtAuthInterface:
+    class: BalticRobo\Api\Service\User\Jwt\FirebaseJwtAuth
+    arguments:
+      $secret: '%env(APP_SECRET)%'
+      $algorithm: '%env(APP_ALGORITHM)%'

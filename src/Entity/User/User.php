@@ -55,6 +55,17 @@ class User implements UserInterface
      */
     private $createdAt;
 
+    public static function createFromIdEmailRoles(int $id, string $email, array $roles): self
+    {
+        $entity = new self();
+        $entity->id = $id;
+        $entity->email = new Email($email);
+        $entity->roles = new Roles($roles);
+        $entity->active = true;
+
+        return $entity;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -70,9 +81,9 @@ class User implements UserInterface
         return $this->surname;
     }
 
-    public function getEmail(): Email
+    public function getEmailAddress(): string
     {
-        return $this->email;
+        return $this->email->getAddress();
     }
 
     public function getName(): string
