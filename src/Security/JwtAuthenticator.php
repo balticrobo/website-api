@@ -54,12 +54,12 @@ final class JwtAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        return new JsonResponse(['error' => ['message' => 'Incorrect token.']], Response::HTTP_UNAUTHORIZED);
+        return new JsonResponse(['error' => ['message' => 'Incorrect token.']], Response::HTTP_FORBIDDEN);
     }
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        return new JsonResponse(['error' => ['message' => 'Token is missing.']], Response::HTTP_FORBIDDEN);
+        return new JsonResponse(['error' => ['message' => 'Token is missing.']], Response::HTTP_UNAUTHORIZED);
     }
 
     public function supportsRememberMe(): bool

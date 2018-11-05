@@ -22,7 +22,8 @@ final class LoginAuthenticator extends AbstractGuardAuthenticator
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function supports(Request $request): bool {
+    public function supports(Request $request): bool
+    {
         return '/login' === $request->getRequestUri() && $request->isMethod('POST');
     }
 
@@ -52,12 +53,12 @@ final class LoginAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        return new JsonResponse(['error' => ['message' => 'Invalid credentials.']], Response::HTTP_UNAUTHORIZED);
+        return new JsonResponse(['error' => ['message' => 'Invalid credentials.']], Response::HTTP_FORBIDDEN);
     }
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        return new JsonResponse(['error' => ['message' => 'It shouldn\'t happen.']], Response::HTTP_FORBIDDEN);
+        return new JsonResponse(['error' => ['message' => 'It shouldn\'t happen.']], Response::HTTP_UNAUTHORIZED);
     }
 
     public function supportsRememberMe(): bool
