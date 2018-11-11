@@ -80,6 +80,9 @@
     "firebase/php-jwt": {
         "version": "v5.0.0"
     },
+    "jakub-onderka/php-var-dump-check": {
+        "version": "v0.3"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },

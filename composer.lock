@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93154932d9a1e253610ec5dd8f3cac8b",
+    "content-hash": "4f50a338009a59f242a26b0540a924d6",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -3462,6 +3462,52 @@
                 "persistence"
             ],
             "time": "2017-12-04T20:26:38+00:00"
+        },
+        {
+            "name": "jakub-onderka/php-var-dump-check",
+            "version": "v0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JakubOnderka/PHP-Var-Dump-Check.git",
+                "reference": "c7b30cbe73b7815811d079cb5bc326c313dd084e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JakubOnderka/PHP-Var-Dump-Check/zipball/c7b30cbe73b7815811d079cb5bc326c313dd084e",
+                "reference": "c7b30cbe73b7815811d079cb5bc326c313dd084e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "~1.0",
+                "phpunit/phpunit": "~4.5"
+            },
+            "suggest": {
+                "jakub-onderka/php-console-highlighter": "For colored console output"
+            },
+            "bin": [
+                "var-dump-check"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JakubOnderka\\PhpVarDumpCheck\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Onderka",
+                    "email": "jakub.onderka@gmail.com"
+                }
+            ],
+            "description": "Find forgotten variables dump in PHP source code.",
+            "time": "2018-09-29T19:22:45+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
