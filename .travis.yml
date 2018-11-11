@@ -10,7 +10,7 @@ before_install:
 - curl -L https://github.com/docker/compose/releases/download/${DC}/docker-compose-`uname -s`-`uname -m` > docker-compose
 - chmod +x docker-compose
 - sudo mv docker-compose /usr/local/bin
+- docker-compose -f docker-compose.test.yaml build
 
 script:
-- docker-compose -f docker-compose.test.yaml build
 - docker-compose -f docker-compose.test.yaml up --exit-code-from test_php
