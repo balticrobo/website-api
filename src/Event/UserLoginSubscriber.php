@@ -11,7 +11,9 @@ final class UserLoginSubscriber implements EventSubscriberInterface
     /**
      * TODO: Add last login at
      */
-    public function onSecurityAuthenticationSuccess(AuthenticationEvent $event): void { }
+    public function onSecurityAuthenticationSuccess(AuthenticationEvent $event): void
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {

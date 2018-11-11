@@ -11,10 +11,10 @@ final class UserFixtures extends Fixture
 {
     private $passwordEncoder;
 
-     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-     {
-         $this->passwordEncoder = $passwordEncoder;
-     }
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
 
     /**
      * TODO: Create fixtures based on DTO
