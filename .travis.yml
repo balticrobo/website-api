@@ -1,0 +1,16 @@
+language: minimal
+sudo: required
+
+before_install:
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+- sudo apt-get update
+- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+- export DC=$(curl --silent "https://api.github.com/repos/docker/compose/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+- curl -L https://github.com/docker/compose/releases/download/${DC}/docker-compose-`uname -s`-`uname -m` > docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
+
+script:
+- docker-compose -f docker-compose.test.yaml build
+- docker-compose -f docker-compose.test.yaml up --exit-code-from test_php
