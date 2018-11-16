@@ -48,26 +48,26 @@ class AuthenticationServiceTest extends TestCase
             User::createFromIdEmailRoles(1, 'jdoe@example.com', ['ROLE_SUPERADMIN']),
             0,
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJpc3MiOiJodHRwczpcL1wvYXBpLmJici5sb2NhbDo4MDAwIiwiaWF0IjowLCJleHAiOj'
-            .'M2MDAsImlkeCI6MSwiZW1hIjoiamRvZUBleGFtcGxlLmNvbSIsInJvbCI6WyJST0xFX1NVUEVSQURNSU4iLCJST0xFX1VTRVIiXX0',
+            . 'M2MDAsImlkeCI6MSwiZW1hIjoiamRvZUBleGFtcGxlLmNvbSIsInJvbCI6WyJST0xFX1NVUEVSQURNSU4iLCJST0xFX1VTRVIiXX0',
         ];
         yield 'User with ID 2' => [
             User::createFromIdEmailRoles(2, 'jdoe@example.com', ['ROLE_JUDGE']),
             0,
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJpc3MiOiJodHRwczpcL1wvYXBpLmJici5sb2NhbDo4MDAwIiwiaWF0IjowLCJleHAiOj'
-            .'M2MDAsImlkeCI6MiwiZW1hIjoiamRvZUBleGFtcGxlLmNvbSIsInJvbCI6WyJST0xFX0pVREdFIiwiUk9MRV9VU0VSIl19',
+            . 'M2MDAsImlkeCI6MiwiZW1hIjoiamRvZUBleGFtcGxlLmNvbSIsInJvbCI6WyJST0xFX0pVREdFIiwiUk9MRV9VU0VSIl19',
         ];
         yield 'User with ID 3' => [
             User::createFromIdEmailRoles(3, 'jane@example.com', ['ROLE_USER']),
             1543210123,
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJpc3MiOiJodHRwczpcL1wvYXBpLmJici5sb2NhbDo4MDAwIiwiaWF0IjoxNTQzMjEwMT'
-            .'IzLCJleHAiOjE1NDMyMTM3MjMsImlkeCI6MywiZW1hIjoiamFuZUBleGFtcGxlLmNvbSIsInJvbCI6WyJST0xFX1VTRVIiXX0',
+            . 'IzLCJleHAiOjE1NDMyMTM3MjMsImlkeCI6MywiZW1hIjoiamFuZUBleGFtcGxlLmNvbSIsInJvbCI6WyJST0xFX1VTRVIiXX0',
         ];
         yield 'User with ID 4' => [
             User::createFromIdEmailRoles(4, 'sample@example.com', ['ROLE_USER', 'ROLE_ONE', 'ROLE_TWO', 'ROLE_THREE']),
             1543210987,
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJpc3MiOiJodHRwczpcL1wvYXBpLmJici5sb2NhbDo4MDAwIiwiaWF0IjoxNTQzMjEwOT'
-            .'g3LCJleHAiOjE1NDMyMTQ1ODcsImlkeCI6NCwiZW1hIjoic2FtcGxlQGV4YW1wbGUuY29tIiwicm9sIjpbIlJPTEVfVVNFUiIsIlJPTEV'
-            .'fT05FIiwiUk9MRV9UV08iLCJST0xFX1RIUkVFIl19',
+            . 'g3LCJleHAiOjE1NDMyMTQ1ODcsImlkeCI6NCwiZW1hIjoic2FtcGxlQGV4YW1wbGUuY29tIiwicm9sIjpbIlJPTEVfVVNFUiIsIlJPTE'
+            . 'VfT05FIiwiUk9MRV9UV08iLCJST0xFX1RIUkVFIl19',
         ];
     }
 }
