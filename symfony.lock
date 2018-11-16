@@ -80,11 +80,17 @@
     "firebase/php-jwt": {
         "version": "v5.0.0"
     },
+    "hamcrest/hamcrest-php": {
+        "version": "v2.0.0"
+    },
     "jakub-onderka/php-var-dump-check": {
         "version": "v0.3"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "mockery/mockery": {
+        "version": "1.2.0"
     },
     "monolog/monolog": {
         "version": "1.23.0"
