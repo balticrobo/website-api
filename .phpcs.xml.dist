@@ -1,9 +1,10 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="PHP_CodeSniffer">
+    <file>src</file>
+    <file>tests</file>
+    <arg name="colors"/>
+    <arg name="encoding" value="utf-8"/>
     <rule ref="PSR1"/>
     <rule ref="PSR2"/>
     <rule ref="PSR12"/>
-    <file>src</file>
-    <arg name="colors"/>
-    <arg name="encoding" value="utf-8"/>
 </ruleset>
