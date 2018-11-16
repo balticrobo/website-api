@@ -18,3 +18,4 @@ run Install_vendors_from_Composer composer install
 run Lint_YAML_configs bin/console lint:yaml config
 run PHP_CodeSniffer vendor/bin/phpcs -p
 run VarDump_Check vendor/bin/var-dump-check --symfony src
+run PHPUnit vendor/bin/phpunit
