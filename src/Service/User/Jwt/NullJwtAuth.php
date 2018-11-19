@@ -7,28 +7,44 @@ use BalticRobo\Api\Model\User\TokenDTO;
 
 final class NullJwtAuth implements JwtAuthInterface
 {
+    private $timestamp;
+
+    public function __construct(int $timestamp = 0)
+    {
+        $this->timestamp = $timestamp;
+    }
+
     public function encode(TokenDataDTO $dto): TokenDTO
     {
-        $segments = [
-            self::urlsafeB64Encode('{"typ":"JWT","alg":"none"}'),
-            self::urlsafeB64Encode(json_encode($dto->getPayload())),
-        ];
-
-        return new TokenDTO(implode('.', $segments));
+        return new TokenDTO(base64_encode(json_encode($dto->getPayload())));
     }
 
     public function decode(TokenDTO $dto): TokenDataDTO
     {
-        // TODO: Implement decode() method
+        $jwt = json_decode(base64_decode($dto->getToken()));
+        if (null === $jwt) {
+            throw new \UnexpectedValueException('Invalid JSON.');
+        }
+
+        if (!isset($jwt->iss, $jwt->idx, $jwt->ema, $jwt->rol, $jwt->iat, $jwt->exp)) {
+            throw new \DomainException('Invalid JWT.');
+        } elseif ($this->timestamp < $jwt->iat) {
+            throw new \DomainException('Token will begin later.');
+        } elseif ($this->timestamp >= $jwt->exp) {
+            throw new \DomainException('Token expired.');
+        }
+
+        return TokenDataDTO::createFromJWT($jwt);
     }
 
     public function verify(TokenDTO $dto): bool
     {
-        // TODO: Implement verify() method
-    }
+        try {
+            $this->decode($dto);
+        } catch (\UnexpectedValueException | \DomainException $e) {
+            return false;
+        }
 
-    private static function urlsafeB64Encode($input)
-    {
-        return str_replace('=', '', strtr(base64_encode($input), '+/', '-_'));
+        return true;
     }
 }
