@@ -1,0 +1,3 @@
+services:
+  BalticRobo\Api\Service\User\Jwt\JwtAuthInterface:
+    class: BalticRobo\Api\Service\User\Jwt\NullJwtAuth

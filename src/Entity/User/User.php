@@ -3,13 +3,14 @@
 namespace BalticRobo\Api\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User implements UserInterface
+class User implements UserInterface, EquatableInterface
 {
     /**
      * @ORM\Id()
@@ -123,5 +124,10 @@ class User implements UserInterface
 
     public function eraseCredentials(): void
     {
+    }
+
+    public function isEqualTo(UserInterface $user): bool
+    {
+        return $this->getUsername() === $user->getUsername();
     }
 }
