@@ -10,8 +10,6 @@ services:
     - test_db
   test_db:
     image: mysql:5.7
-    volumes:
-    - ./.misc/docker-test/db/schema:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: test_database

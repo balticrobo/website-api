@@ -9,13 +9,16 @@
         <env name="KERNEL_CLASS" value="BalticRobo\Api\Kernel"/>
         <env name="APP_ENV" value="test"/>
         <env name="APP_SECRET" value="78af59a4349d76b2923b988282a255f8"/>
-        <env name="APP_ALGORITHM" value="HS256"/>
+        <env name="APP_ALGORITHM" value="none"/>
         <env name="DATABASE_URL" value="mysql://root:password@test_db:3306/test_database"/>
         <env name="CORS_ORIGIN_HOST" value="*"/>
     </php>
     <testsuites>
-        <testsuite name="BalticRobo\Api\Tests\">
-            <directory>tests/</directory>
+        <testsuite name="BalticRobo\Api\Tests\Unit\">
+            <directory>tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="BalticRobo\Api\Tests\E2E\">
+            <directory>tests/E2E/</directory>
         </testsuite>
     </testsuites>
     <filter>
