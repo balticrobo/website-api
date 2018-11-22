@@ -26,4 +26,11 @@ final class ManageUserService
 
         return $user;
     }
+
+    public function update(User $user): User
+    {
+        $this->userRepository->save($user);
+
+        return $user;
+    }
 }

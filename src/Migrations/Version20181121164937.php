@@ -18,6 +18,7 @@ final class Version20181121164937 extends AbstractMigration
             roles JSON NOT NULL,
             active TINYINT(1) NOT NULL,
             created_at INT NOT NULL,
+            last_login_at INT DEFAULT NULL,
             UNIQUE INDEX UNIQ_1483A5E9B08E074E (email_address),
             PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');

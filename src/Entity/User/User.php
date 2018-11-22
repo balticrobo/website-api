@@ -58,6 +58,11 @@ class User implements UserInterface, EquatableInterface
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="timestamp_immutable", nullable=true)
+     */
+    private $lastLoginAt;
+
     public static function createFromIdEmailRoles(int $id, string $email, array $roles): self
     {
         $entity = new self();
@@ -141,6 +146,16 @@ class User implements UserInterface, EquatableInterface
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getLastLoginAt(): ?\DateTimeImmutable
+    {
+        return $this->lastLoginAt;
+    }
+
+    public function setLastLoginAt(\DateTimeImmutable $time): void
+    {
+        $this->lastLoginAt = $time;
     }
 
     public function getSalt(): ?string
