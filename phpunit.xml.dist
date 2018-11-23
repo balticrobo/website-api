@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/7.4/phpunit.xsd"
+         colors="true"
+         bootstrap="vendor/autoload.php"
+>
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <env name="KERNEL_CLASS" value="BalticRobo\Api\Kernel"/>
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_SECRET" value="78af59a4349d76b2923b988282a255f8"/>
+        <env name="APP_ALGORITHM" value="none"/>
+        <env name="DATABASE_URL" value="mysql://root:password@test_db:3306/test_database"/>
+        <env name="CORS_ORIGIN_HOST" value="*"/>
+    </php>
+    <testsuites>
+        <testsuite name="BalticRobo\Api\Tests\Unit\">
+            <directory>tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="BalticRobo\Api\Tests\E2E\">
+            <directory>tests/E2E/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src/</directory>
+            <exclude>
+                <file>src/Kernel.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

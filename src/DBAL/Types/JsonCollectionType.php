@@ -21,9 +21,9 @@ final class JsonCollectionType extends Type
         return new ArrayCollection(json_decode($value, true));
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?array
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
-        return $value->toArray();
+        return json_encode($value->toArray());
     }
 
     public function getName()

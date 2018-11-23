@@ -5,23 +5,32 @@ namespace BalticRobo\Api\Repository\User;
 use BalticRobo\Api\Entity\User\Email;
 use BalticRobo\Api\Entity\User\User;
 use BalticRobo\Api\Exception\User\UserNotFoundException;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class UserRepository extends ServiceEntityRepository
+class UserRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $objectManager;
+    private $repository;
+
+    public function __construct(ObjectManager $objectManager)
     {
-        parent::__construct($registry, User::class);
+        $this->objectManager = $objectManager;
+        $this->repository = $objectManager->getRepository(User::class);
     }
 
     public function getUserByEmail(Email $email): User
     {
-        $record = $this->findOneBy(['email.address' => $email->getAddress()]);
+        $record = $this->repository->findOneBy(['email.address' => $email->getAddress()]);
         if (!$record) {
             throw new UserNotFoundException();
         }
 
         return $record;
+    }
+
+    public function save(User $user): void
+    {
+        $this->objectManager->persist($user);
+        $this->objectManager->flush();
     }
 }

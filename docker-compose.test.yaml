@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  test_php:
+    build: ./.misc/docker-test/php
+    volumes:
+    - .:/var/www/app
+    working_dir: /var/www/app
+    links:
+    - test_db
+  test_db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test_database
+    logging:
+      driver: none

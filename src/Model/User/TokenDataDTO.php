@@ -14,7 +14,9 @@ final class TokenDataDTO
     private $issuedAt;
     private $expiresAt;
 
-    private function __construct() { }
+    private function __construct()
+    {
+    }
 
     public static function createFromRequestUserAndTime(Request $request, User $user, \DateTimeImmutable $now): self
     {
