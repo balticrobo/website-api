@@ -3,6 +3,8 @@
 namespace BalticRobo\Api\Controller;
 
 use BalticRobo\Api\Model\User\TokenDataDTO;
+use BalticRobo\Api\Model\User\TokenDTO;
+use BalticRobo\Api\ResponseModel\User\TokenResponse;
 use BalticRobo\Api\Service\User\AuthenticationService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,9 +30,9 @@ final class SecurityController extends Controller
     public function createTokenAction(Request $request): Response
     {
         $tokenData = TokenDataDTO::createFromRequestUserAndTime($request, $this->getUser(), new \DateTimeImmutable());
-        $token = $this->authentication->createToken($tokenData)->getToken();
+        $token = $this->authentication->createToken($tokenData);
 
-        return $this->json(['data' => ['token' => $token]], Response::HTTP_OK);
+        return $this->json((new TokenResponse($token))->respond(), Response::HTTP_OK);
     }
 
     /**
