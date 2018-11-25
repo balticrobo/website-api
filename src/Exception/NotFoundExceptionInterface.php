@@ -4,5 +4,4 @@ namespace BalticRobo\Api\Exception;
 
 interface NotFoundExceptionInterface
 {
-
 }

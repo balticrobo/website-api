@@ -9,7 +9,7 @@ final class TimestampImmutableType extends Type
 {
     private const DOCTRINE_REPRESENTATION = 'timestamp_immutable';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getIntegerTypeDeclarationSQL($fieldDeclaration);
     }
@@ -32,7 +32,7 @@ final class TimestampImmutableType extends Type
         return $value->getTimestamp();
     }
 
-    public function getName()
+    public function getName(): string
     {
         return self::DOCTRINE_REPRESENTATION;
     }

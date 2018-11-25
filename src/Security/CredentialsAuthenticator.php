@@ -2,7 +2,7 @@
 
 namespace BalticRobo\Api\Security;
 
-use BalticRobo\Api\Model\User\LoginDTO;
+use BalticRobo\Api\Model\User\CredentialsDTO;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,13 +31,13 @@ final class CredentialsAuthenticator extends AbstractGuardAuthenticator
             && $request->isMethod('POST');
     }
 
-    public function getCredentials(Request $request): LoginDTO
+    public function getCredentials(Request $request): CredentialsDTO
     {
         if (!$request->request->has('email') || !$request->request->has('password')) {
             throw new AuthenticationException('Incorrect request.');
         }
 
-        return new LoginDTO($request->request->get('email'), $request->request->get('password'));
+        return new CredentialsDTO($request->request->get('email'), $request->request->get('password'));
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface

@@ -11,10 +11,12 @@ abstract class AbstractMigration extends DoctrineMigration
     {
         $this->checkDatabaseType();
     }
+
     public function preDown(Schema $schema): void
     {
         $this->checkDatabaseType();
     }
+
     private function checkDatabaseType(): void
     {
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'MySQL only!');
