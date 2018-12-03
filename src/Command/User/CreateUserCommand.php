@@ -48,7 +48,7 @@ final class CreateUserCommand extends Command
         $this->email = new Email($this->helper->ask($input, $output, $this->question('Email')));
         $this->forename = $this->helper->ask($input, $output, $this->question('Forename'));
         $this->surname = $this->helper->ask($input, $output, $this->question('Surname'));
-        $this->password = $this->helper->ask($input, $output, $this->question('Password', true));
+        $this->password = $this->helper->ask($input, $output, $this->questionWithHiddenPrompt('Password'));
         $this->admin = $this->helper->ask($input, $output, $this->confirmation('Is administrator?'));
         $this->active = $this->helper->ask($input, $output, $this->confirmation('Is active?'));
         $question = "Are you sure to create user: {$this->forename} {$this->surname} ({$this->email->getAddress()})?";
@@ -67,14 +67,22 @@ final class CreateUserCommand extends Command
         $output->writeln(['=======================', "New user created at {$now->format('Y-m-d H:i')}."]);
     }
 
-    private function question(string $field, bool $hidden = false): Question
+    private function question(string $field): Question
     {
         $question = new Question("{$field}: ");
-        $question->setHidden($hidden);
+
         $question->setValidator(function ($value) use ($field) {
             return $this->questionValidation($value, $field);
         });
         $question->setMaxAttempts(4);
+
+        return $question;
+    }
+
+    private function questionWithHiddenPrompt(string $field): Question
+    {
+        $question = $this->question($field);
+        $question->setHidden(true);
 
         return $question;
     }
