@@ -17,6 +17,6 @@ function quit_when_fail {
 run Install_vendors_from_Composer composer install
 run Lint_YAML_configs bin/console lint:yaml config
 run PHP_CodeSniffer vendor/bin/phpcs -p
-run VarDump_Check vendor/bin/var-dump-check --symfony src
+run VarDump_Check vendor/bin/var-dump-check --symfony --laravel --doctrine src
 wait-for-it test_db:3306 -t 600
 run PHPUnit vendor/bin/phpunit
