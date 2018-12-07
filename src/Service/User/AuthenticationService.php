@@ -21,6 +21,14 @@ final class AuthenticationService
         return $this->jwtAuth->encode($dto);
     }
 
+    public function refreshToken(TokenDTO $dto, \DateTimeImmutable $now): TokenDTO
+    {
+        $oldData = $this->jwtAuth->decodeToRefresh($dto);
+        $newData = TokenDataDTO::createFromOldTokenDataDTO($oldData, $now);
+
+        return $this->createToken($newData);
+    }
+
     public function isTokenCorrect(TokenDTO $dto): bool
     {
         return $this->jwtAuth->verify($dto);

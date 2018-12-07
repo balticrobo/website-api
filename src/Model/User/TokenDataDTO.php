@@ -7,7 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class TokenDataDTO
 {
-    private const TOKEN_LIVE_TIME = 3600;
+    public const TOKEN_REFRESH_TIME = 259200; // 72h
+    private const TOKEN_LIVE_TIME = 3600; // 1h
 
     private $address;
     private $user;
@@ -23,6 +24,17 @@ final class TokenDataDTO
         $dto = new self();
         $dto->address = $request->getSchemeAndHttpHost();
         $dto->user = $user;
+        $dto->issuedAt = $now;
+        $dto->expiresAt = $now->add(new \DateInterval('PT' . self::TOKEN_LIVE_TIME . 'S'));
+
+        return $dto;
+    }
+
+    public static function createFromOldTokenDataDTO(self $oldDto, \DateTimeImmutable $now): self
+    {
+        $dto = new self();
+        $dto->address = $oldDto->getAddress();
+        $dto->user = $oldDto->getUser();
         $dto->issuedAt = $now;
         $dto->expiresAt = $now->add(new \DateInterval('PT' . self::TOKEN_LIVE_TIME . 'S'));
 
@@ -50,6 +62,11 @@ final class TokenDataDTO
             'ema' => $this->user->getEmailAddress(),
             'rol' => $this->user->getRoles(),
         ];
+    }
+
+    public function getAddress(): string
+    {
+        return $this->address;
     }
 
     public function getUser(): User

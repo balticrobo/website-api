@@ -3,10 +3,10 @@
 namespace BalticRobo\Api\Controller;
 
 use BalticRobo\Api\Model\User\TokenDataDTO;
-use BalticRobo\Api\Model\User\TokenDTO;
+use BalticRobo\Api\RequestValidator\RequestHandler;
+use BalticRobo\Api\RequestValidator\Security\RefreshTokenRequestHandler;
 use BalticRobo\Api\ResponseModel\User\TokenResponse;
 use BalticRobo\Api\Service\User\AuthenticationService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,8 +38,11 @@ final class SecurityController extends Controller
     /**
      * @Route("/refresh", methods={"POST"})
      */
-    public function refreshTokenAction(Request $request): Response
+    public function refreshTokenAction(Request $request, RequestHandler $handler): Response
     {
-        dd($this->getUser());
+        $oldToken = $handler->handle($request, new RefreshTokenRequestHandler());
+        $newToken = $this->authentication->refreshToken($oldToken, new \DateTimeImmutable());
+
+        return $this->json((new TokenResponse($newToken))->respond(), Response::HTTP_OK);
     }
 }

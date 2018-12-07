@@ -2,12 +2,14 @@
 
 namespace BalticRobo\Api\Service\User\Jwt;
 
+use BalticRobo\Api\Exception\JWTExpiredException;
 use BalticRobo\Api\Model\User\TokenDataDTO;
 use BalticRobo\Api\Model\User\TokenDTO;
 
 final class NullJwtAuth implements JwtAuthInterface
 {
     private $timestamp;
+    private $refresh = false;
 
     public function __construct(int $timestamp = 0)
     {
@@ -30,11 +32,22 @@ final class NullJwtAuth implements JwtAuthInterface
             throw new \DomainException('Invalid JWT.');
         } elseif ($this->timestamp < $jwt->iat) {
             throw new \DomainException('Token will begin later.');
-        } elseif ($this->timestamp >= $jwt->exp) {
+        } elseif ($this->timestamp >= $jwt->exp
+            || (($this->timestamp + TokenDataDTO::TOKEN_REFRESH_TIME) >= $jwt->exp && $this->refresh)) {
             throw new \DomainException('Token expired.');
         }
 
         return TokenDataDTO::createFromJWT($jwt);
+    }
+
+    public function decodeToRefresh(TokenDTO $dto): TokenDataDTO
+    {
+        $this->refresh = true;
+        try {
+            return $this->decode($dto);
+        } catch (\DomainException $e) {
+            throw new JWTExpiredException();
+        }
     }
 
     public function verify(TokenDTO $dto): bool

@@ -9,5 +9,6 @@ interface JwtAuthInterface
 {
     public function encode(TokenDataDTO $dto): TokenDTO;
     public function decode(TokenDTO $dto): TokenDataDTO;
+    public function decodeToRefresh(TokenDTO $dto): TokenDataDTO;
     public function verify(TokenDTO $dto): bool;
 }
