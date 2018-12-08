@@ -3,26 +3,31 @@ security:
     BalticRobo\Api\Entity\User\User:
       algorithm: argon2i
   providers:
-    jwt:
-      id: BalticRobo\Api\Security\JwtProvider
+    user:
+      id: BalticRobo\Api\Security\UserProvider
   firewalls:
     dev:
-      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      pattern: ^/_(profiler|wdt)/
       security: false
-    main:
-      pattern: ^/
+    doc:
+      pattern: ^/doc$
+      security: false
+    jwt:
+      pattern: ^/security/
       anonymous: ~
       stateless: true
       json_login:
-        check_path: /login
+        check_path: balticrobo_api_security_createtoken
         username_path: email
         password_path: password
         remember_me: false
       logout: ~
       guard:
-        provider: jwt
-        authenticators:
-        - BalticRobo\Api\Security\LoginAuthenticator
-        - BalticRobo\Api\Security\JwtAuthenticator
-        entry_point: BalticRobo\Api\Security\JwtAuthenticator
-
+        provider: user
+        authenticator: BalticRobo\Api\Security\CredentialsAuthenticator
+    main:
+      pattern: ^/
+      anonymous: false
+      stateless: true
+      guard:
+        authenticator: BalticRobo\Api\Security\TokenAuthenticator

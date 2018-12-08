@@ -11,7 +11,7 @@ final class JsonCollectionType extends Type
 {
     private const DOCTRINE_REPRESENTATION = 'json_collection';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getJsonTypeDeclarationSQL($fieldDeclaration);
     }
@@ -26,7 +26,7 @@ final class JsonCollectionType extends Type
         return json_encode($value->toArray());
     }
 
-    public function getName()
+    public function getName(): string
     {
         return self::DOCTRINE_REPRESENTATION;
     }

@@ -2,7 +2,7 @@
 
 namespace BalticRobo\Api\Model\User;
 
-final class LoginDTO
+final class CredentialsDTO
 {
     private $email;
     private $password;

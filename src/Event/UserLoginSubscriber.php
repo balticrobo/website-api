@@ -22,7 +22,7 @@ final class UserLoginSubscriber implements EventSubscriberInterface
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $request = $event->getRequest();
-        if ($this->router->generate('balticrobo_api_security_login') === $request->getRequestUri()) {
+        if ($this->router->generate('balticrobo_api_security_createtoken') === $request->getRequestUri()) {
             $user = $event->getAuthenticationToken()->getUser();
             $user->setLastLoginAt(new \DateTimeImmutable());
             $this->userService->update($user);

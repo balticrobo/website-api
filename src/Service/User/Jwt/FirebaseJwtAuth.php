@@ -2,6 +2,7 @@
 
 namespace BalticRobo\Api\Service\User\Jwt;
 
+use BalticRobo\Api\Exception\JWTExpiredException;
 use BalticRobo\Api\Model\User\TokenDataDTO;
 use BalticRobo\Api\Model\User\TokenDTO;
 use Firebase\JWT\BeforeValidException;
@@ -28,6 +29,16 @@ final class FirebaseJwtAuth implements JwtAuthInterface
     public function decode(TokenDTO $dto): TokenDataDTO
     {
         return TokenDataDTO::createFromJWT(JWT::decode($dto->getToken(), $this->secret, [$this->algorithm]));
+    }
+
+    public function decodeToRefresh(TokenDTO $dto): TokenDataDTO
+    {
+        JWT::$leeway = TokenDataDTO::TOKEN_REFRESH_TIME;
+        try {
+            return $this->decode($dto);
+        } catch (ExpiredException $e) {
+            throw new JWTExpiredException();
+        }
     }
 
     public function verify(TokenDTO $dto): bool

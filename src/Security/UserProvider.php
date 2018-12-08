@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-final class JwtProvider implements UserProviderInterface
+final class UserProvider implements UserProviderInterface
 {
     private $userRepository;
 
