@@ -19,8 +19,8 @@ info:
     email: pawel@cierzniakowski.pl
     url: https://cierzniak.ml
 servers:
-- url: http://localhost:8000
-  description: Docker or local development
+  - url: http://localhost:8000
+    description: Docker or local development
 paths:
   /login:
     post:
@@ -30,7 +30,7 @@ paths:
         [JSON Web Token](https://jwt.io/) and return it. This Token must be
         added to each future request till is valid.
       tags:
-      - Security
+        - Security
       requestBody:
         content:
           application/json:
@@ -43,8 +43,8 @@ paths:
                   type: string
                   description: User password
               required:
-              - email
-              - password
+                - email
+                - password
             example:
               email: jdoe@example.com
               password: MySecretPassword123
@@ -65,6 +65,64 @@ paths:
                           MzkwMjJ9\
                           .myWq7MiF6hMmNbW8onUdrU3LCSDnz_zikV1VYYVYiLLPImV-E6g3\
                           rgsqVSxg3Xzz"
+  /cms/event/create:
+    post:
+      summary: Create new event;
+      description: |
+        Create new event;
+      tags:
+        - cms
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                year:
+                  type: integer
+                  description: The year in which event occurs
+                eventStartsAt:
+                  type: string
+                  description: The exact date and time of event start in format ISO8601
+                registrationStartsAt:
+                  type: string
+                  description: The exact date and time of event's registration starts in format ISO8601
+                registrationStopsAt:
+                  type: string
+                  description: The exact date and time of event's registration stops in format ISO8601
+              required:
+                - year
+                - eventStartsAt
+                - registrationStartsAt
+                - registrationStopsAt
+            example:
+              year: 2019
+              eventStartsAt: "2018-05-03 10:00:00"
+              registrationStartsAt: "2018-02-01 09:00:00"
+              registrationStopsAt: "2018-04-25 21:00:00"
+      responses:
+        201:
+          description: Event was created
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      event:
+                        properties:
+                          year:
+                            type: integer
+                            example: 2019
+                          eventStartsAt:
+                            type: string
+                            example: "2018-05-03 10:00:00"
+                          registrationStartsAt:
+                            type: string
+                            example: "2018-02-01 09:00:00"
+                          registrationStopsAt:
+                            type: string
+                            example: "2018-04-25 21:00:00"
 components:
   securitySchemes:
     JWT:
