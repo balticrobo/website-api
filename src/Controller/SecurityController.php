@@ -2,9 +2,11 @@
 
 namespace BalticRobo\Api\Controller;
 
+use BalticRobo\Api\Exception\JWTExpiredException;
 use BalticRobo\Api\Model\User\TokenDataDTO;
 use BalticRobo\Api\RequestValidator\RequestHandler;
 use BalticRobo\Api\RequestValidator\Security\RefreshTokenRequestHandler;
+use BalticRobo\Api\ResponseModel\Error\TokenExpiredResponse;
 use BalticRobo\Api\ResponseModel\User\TokenResponse;
 use BalticRobo\Api\Service\User\AuthenticationService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -41,7 +43,11 @@ final class SecurityController extends Controller
     public function refreshTokenAction(Request $request, RequestHandler $handler): Response
     {
         $oldToken = $handler->handle($request, new RefreshTokenRequestHandler());
-        $newToken = $this->authentication->refreshToken($oldToken, new \DateTimeImmutable());
+        try {
+            $newToken = $this->authentication->refreshToken($oldToken, new \DateTimeImmutable());
+        } catch (JWTExpiredException $e) {
+            return $this->json((new TokenExpiredResponse($e))->respond(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         return $this->json((new TokenResponse($newToken))->respond(), Response::HTTP_OK);
     }

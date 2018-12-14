@@ -36,7 +36,7 @@ final class FirebaseJwtAuth implements JwtAuthInterface
         JWT::$leeway = TokenDataDTO::TOKEN_REFRESH_TIME;
         try {
             return $this->decode($dto);
-        } catch (ExpiredException $e) {
+        } catch (ExpiredException | SignatureInvalidException $e) {
             throw new JWTExpiredException();
         }
     }
