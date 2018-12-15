@@ -22,7 +22,7 @@ servers:
 - url: http://localhost:8000
   description: Docker or local development
 paths:
-  /login:
+  /security/token/create:
     post:
       summary: Credentials => JWT
       description: |
@@ -35,16 +35,7 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                email:
-                  type: string
-                  description: User email
-                password:
-                  type: string
-                  description: User password
-              required:
-              - email
-              - password
+              $ref: '#/components/schemas/Credentials'
             example:
               email: jdoe@example.com
               password: MySecretPassword123
@@ -65,12 +56,102 @@ paths:
                           MzkwMjJ9\
                           .myWq7MiF6hMmNbW8onUdrU3LCSDnz_zikV1VYYVYiLLPImV-E6g3\
                           rgsqVSxg3Xzz"
+        403:
+          description: You've entered wrong credentials or do something nasty
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      message:
+                        type: string
+                        example: Invalid credentials.
+  /security/token/refresh:
+    post:
+      summary: JWT => JWT
+      description: |
+        Get old token (expired) which is not older than certain time and
+        recreate it to shiny new.
+      tags:
+      - Security
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Token'
+            example:
+              token:
+                "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9\
+                .eyJzdWIiOiIiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9\
+                .myWq7MiF6hMmNbW8onUdrU3LCSDnz_zikV1VYYVYiLLPImV-E6g3rgsqVSxg3X\
+                zz"
+      responses:
+        200:
+          description: JWT is correct so take your new JWT
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      token:
+                        type: string
+                        example:
+                          "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9\
+                          .eyJzdWIiOiIiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE1MTYy\
+                          NDI2MjJ9\
+                          .gNsaGWrfVXdEjYdLtsdsdT7Tw7lWGAqbEyzcFwx5d7qjJVgIuQEr\
+                          P2q7ROF12ueC"
+        422:
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      message:
+                        type: string
+                        example: Validation failed.
+                      violations:
+                        properties:
+                          token:
+                            type: array
+                            items:
+                              type: string
+                              example: This value should not be blank.
+
+
 components:
+  schemas:
+    Credentials:
+      properties:
+        email:
+          type: string
+          description: User email
+        password:
+          type: string
+          description: User password
+      required:
+      - email
+      - password
+    Token:
+      properties:
+        token:
+          type: string
+          description: User email
+      required:
+      - token
   securitySchemes:
     JWT:
       description: |
         [JSON Web Token](https://jwt.io/) have to be obtained from
-         **POST** _/login_
+         **POST** _/security/token/create
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+tags:
+- name: Security
+  description: All about securing your API
