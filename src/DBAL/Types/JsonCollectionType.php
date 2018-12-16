@@ -2,12 +2,13 @@
 
 namespace BalticRobo\Api\DBAL\Types;
 
+use BalticRobo\Api\Exception\DoctrineTypeConversionError;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-final class JsonCollectionType extends Type
+class JsonCollectionType extends Type
 {
     private const DOCTRINE_REPRESENTATION = 'json_collection';
 
@@ -18,11 +19,20 @@ final class JsonCollectionType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform): Collection
     {
-        return new ArrayCollection(json_decode($value, true));
+        $array = json_decode($value, true);
+        if (!is_array($array)) {
+            throw new DoctrineTypeConversionError();
+        }
+
+        return new ArrayCollection($array);
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
+        if (!$value instanceof ArrayCollection) {
+            throw new DoctrineTypeConversionError();
+        }
+
         return json_encode($value->toArray());
     }
 
