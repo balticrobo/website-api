@@ -2,10 +2,11 @@
 
 namespace BalticRobo\Api\DBAL\Types;
 
+use BalticRobo\Api\Exception\DoctrineTypeConversionError;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-final class TimestampImmutableType extends Type
+class TimestampImmutableType extends Type
 {
     private const DOCTRINE_REPRESENTATION = 'timestamp_immutable';
 
@@ -16,8 +17,11 @@ final class TimestampImmutableType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeImmutable
     {
-        if (null === $value || $value instanceof \DateTimeImmutable) {
+        if (null === $value) {
             return $value;
+        }
+        if (!is_numeric($value)) {
+            throw new DoctrineTypeConversionError();
         }
 
         return new \DateTimeImmutable("@{$value}");
@@ -27,6 +31,9 @@ final class TimestampImmutableType extends Type
     {
         if (null === $value) {
             return $value;
+        }
+        if (!$value instanceof \DateTimeImmutable) {
+            throw new DoctrineTypeConversionError();
         }
 
         return $value->getTimestamp();
